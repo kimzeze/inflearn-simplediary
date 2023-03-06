@@ -1,14 +1,14 @@
 import React, { useRef, useState } from "react";
 
-const DiaryEditor = () => {
-  const authorInput = useRef();
-  const contentInput = useRef();
-
+const DiaryEditor = ({ onCreate }) => {
   const [state, setState] = useState({
     author: "",
     content: "",
     emotion: 1,
   });
+
+  const authorInput = useRef();
+  const contentInput = useRef();
 
   const handleChangeState = (e) => {
     console.log(e.target.name);
@@ -24,7 +24,6 @@ const DiaryEditor = () => {
     if (state.author.length < 1) {
       // focus -> useRef를 사용하여 접근함. current.focus()
       authorInput.current.focus();
-
       return;
     }
     if (state.content.length < 5) {
@@ -32,7 +31,15 @@ const DiaryEditor = () => {
       contentInput.current.focus();
       return;
     }
+
+    onCreate(state.author, state.content, state.emotion);
+    console.log(state);
     alert("저장 성공 ");
+    setState({
+      author: "",
+      content: "",
+      emotion: 1,
+    });
   };
 
   return (
